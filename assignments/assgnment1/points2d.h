@@ -1,4 +1,4 @@
-// --> YOUR NAME here
+// Emily-Ann Willix
 // Few comments describing the class Points2D
 
 #ifndef CSCI335_HOMEWORK1_POINTS2D_H_
@@ -23,10 +23,20 @@ class Points2D {
 
     // Zero-parameter constructor.
     // Set size to 0.
-    Points2D() = default;
+    Points2D() : size_(0), sequence_(nullptr){};
 
     // Copy-constructor.
-    Points2D(const Points2D &rhs) = default;
+    Points2D(const Points2D &rhs){
+       size_ = rhs.size_; 
+       if (size_ == 0){
+            sequence_ = nullptr;
+       }else{
+            sequence_ = new std::array<Object, 2> *sequence_;
+            for(int i = 0, i < size_; i++){
+                sequence_[i] = rhs.sequence_[i];
+            }
+       }
+    }
 
     // Copy-assignment. If you have already written
     // the copy-constructor and the move-constructor
@@ -36,16 +46,41 @@ class Points2D {
     // std::swap(*this, copy);
     // return *this;
     // }
-    Points2D& operator=(const Points2D &rhs) = default;
+    Points2D& operator=(const Points2D &rhs){
+        Points2D copy = rhs;
+        std::swap(*this, copy);
+        return *this;
+    }
 
     // Move-constructor.
-    Points2D(Points2D &&rhs) = default;
+    Points2D(Points2D &&rhs){
+        size_ = rhs.size_;
+        rhs.size_ = 0;
+        if (size_ == 0){
+            sequence_ = nullptr;
+       }else{
+            sequence_ = new std::array<Object, 2> *sequence_;
+            for(int i = 0, i < size_; i++){
+                sequence_[i] = rhs.sequence_[i];
+            }
+       }
+       delete[] rhs.sequence_;
+       rhs.sequence_ = nullptr;
+    }
+    
 
     // Move-assignment.
     // Just use std::swap() for all variables.
-    Points2D& operator=(Points2D &&rhs) = default;
+    Points2D& operator=(Points2D &&rhs){
+       std::swap(size_, rhs.size_);
+       std::swap(sequence_, rhs.sequence_); 
+    }
 
-    ~Points2D() = default;
+    ~Points2D(){
+        delete[] sequence_;
+        sequence_ = nullptr;
+        size_ = 0;
+    }
 
     // End of big-five.
 
