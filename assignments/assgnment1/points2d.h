@@ -60,7 +60,7 @@ class Points2D {
         if (size_ == 0){
             sequence_ = nullptr;
        }else{
-            sequence_ = new std::array<Object, 2>;
+            sequence_ = new std::array<Object, 2>[size_];
             for(int i = 0; i < size_; i++){
                 sequence_[i] = rhs.sequence_[i];
             }
@@ -121,6 +121,7 @@ class Points2D {
         return result;    
     }
 
+    //WORKS: DONT TOUCH 
     // Overloading the << operator.
     friend std::ostream &operator<<(std::ostream &out, const Points2D &some_points) {
       for(int i = 0; i < some_points.size_; i++){
@@ -129,15 +130,18 @@ class Points2D {
       return out;
     }
 
+    //WORKS: DONT TOUCH 
     // Overloading the >> operator.
     // Read a chain from an input stream (e.g., standard input).
     friend std::istream &operator>>(std::istream &in, Points2D &some_points) {
-        //size_t size = some_points[0];
-        for(int i = 0; i < some_points.size_; i++){
+         int size;
+         in >> size;
+        some_points.sequence_ = new std::array<Object, 2>[size];
+        some_points.size_ = size;
+        for(int i = 0; i < size; i++){
             in >> some_points.sequence_[i][0] >> some_points.sequence_[i][1];
-                //std::cerr << "Point formatted improperly";
+                
         }
-    
       return in; 
     }
 
