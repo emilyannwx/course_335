@@ -32,7 +32,7 @@ class Points2D {
        if (size_ == 0){
             sequence_ = nullptr;
        }else{
-            sequence_ = new std::array<Object, 2> ;
+            sequence_ = new std::array<Object, 2>[size_] ;
             for(int i = 0; i < size_; i++){
                 sequence_[i] = rhs.sequence_[i];
             }
