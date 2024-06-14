@@ -88,6 +88,7 @@ class Points2D {
 
     // One parameter constructor.
     Points2D(const std::array<Object, 2>& item) {
+        size_ = 1;
         sequence_ = new std::array<Object, 2>[1];
         sequence_[0] = item;
     }
@@ -102,6 +103,7 @@ class Points2D {
     // abort() if out-of-range.
     const std::array<Object, 2>& operator[](size_t location) const {
         if (location >= size_) {
+            std::cerr << "Postion out of range";
             abort(); 
         }
         return sequence_[location];
@@ -114,9 +116,17 @@ class Points2D {
     friend Points2D operator+(const Points2D &c1, const Points2D &c2) {
         Points2D result;
         result.size_ = std::max(c1.size_, c2.size_);
-        for(int i = 0; i < result.size_; i++){
-            result.sequence_[i][0] = c1.sequence_[i][0] + c2.sequence_[i][0];
-            result.sequence_[i][1] = c1.sequence_[i][1] + c2.sequence_[i][1];
+        smaller_seq = std::min(c1.size_,c2.size_);
+        result.sequence_ =  new std::array<Object, 2>[result.size_]
+        if(c1.size_ == c2.size_){//remove ths 
+            // do smaller one first lol
+            for(int i = 0; i < smaller_seq ; i++){
+                result.sequence_[i][0] = c1.sequence_[i][0] + c2.sequence_[i][0];
+                result.sequence_[i][1] = c1.sequence_[i][1] + c2.sequence_[i][1];
+            }
+        }else if(c1.size_ > c2.size_){
+            //fill in 
+
         }
         return result;    
     }
