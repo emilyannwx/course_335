@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <string>
 #include <sstream>
+//#include
 // ADDING A NEW COMMENT
 namespace teaching_project {
 
@@ -31,8 +32,8 @@ class Points2D {
        if (size_ == 0){
             sequence_ = nullptr;
        }else{
-            sequence_ = new std::array<Object, 2> *sequence_;
-            for(int i = 0, i < size_; i++){
+            sequence_ = new std::array<Object, 2> ;
+            for(int i = 0; i < size_; i++){
                 sequence_[i] = rhs.sequence_[i];
             }
        }
@@ -59,8 +60,8 @@ class Points2D {
         if (size_ == 0){
             sequence_ = nullptr;
        }else{
-            sequence_ = new std::array<Object, 2> *sequence_;
-            for(int i = 0, i < size_; i++){
+            sequence_ = new std::array<Object, 2>;
+            for(int i = 0; i < size_; i++){
                 sequence_[i] = rhs.sequence_[i];
             }
        }
@@ -92,7 +93,7 @@ class Points2D {
     }
 
     size_t size() const {
-        return size_
+        return size_;
     }
 
     // @location: an index to a location in the sequence.
@@ -112,17 +113,18 @@ class Points2D {
     //    result with the remaining part of the larger sequence.
     friend Points2D operator+(const Points2D &c1, const Points2D &c2) {
         Points2D result;
-        result.size_ = max(c1.size_, c2.size_);
+        result.size_ = std::max(c1.size_, c2.size_);
         for(int i = 0; i < result.size_; i++){
-            result.sequence_[i] = c1.sequence_[i] + c2.sequence_[i];
+            result.sequence_[i][0] = c1.sequence_[i][0] + c2.sequence_[i][0];
+            result.sequence_[i][1] = c1.sequence_[i][1] + c2.sequence_[i][1];
         }
-        return result    
+        return result;    
     }
 
     // Overloading the << operator.
     friend std::ostream &operator<<(std::ostream &out, const Points2D &some_points) {
       for(int i = 0; i < some_points.size_; i++){
-        out << "(", some_points.sequence_[i][0] << ',' << some_points.sequence_[i][1] << ")";
+        out << '(' << some_points.sequence_[i][0] << ',' << some_points.sequence_[i][1] << ')';
       }
       return out;
     }
@@ -130,9 +132,12 @@ class Points2D {
     // Overloading the >> operator.
     // Read a chain from an input stream (e.g., standard input).
     friend std::istream &operator>>(std::istream &in, Points2D &some_points) {
-       for(int i = 0; i < some_points.size_; i++){
-        in << "(", some_points.sequence_[i][0] << ',' << some_points.sequence_[i][1] << ")";
-      }
+        //size_t size = some_points[0];
+        for(int i = 0; i < some_points.size_; i++){
+            in >> some_points.sequence_[i][0] >> some_points.sequence_[i][1];
+                //std::cerr << "Point formatted improperly";
+        }
+    
       return in; 
     }
 
@@ -145,3 +150,5 @@ class Points2D {
 
 }  // namespace teaching_project
 #endif // CSCI_335_HOMEWORK1_Points2D_H_
+
+
