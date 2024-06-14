@@ -118,15 +118,21 @@ class Points2D {
         result.size_ = std::max(c1.size_, c2.size_);
         smaller_seq = std::min(c1.size_,c2.size_);
         result.sequence_ =  new std::array<Object, 2>[result.size_]
-        if(c1.size_ == c2.size_){//remove ths 
             // do smaller one first lol
-            for(int i = 0; i < smaller_seq ; i++){
-                result.sequence_[i][0] = c1.sequence_[i][0] + c2.sequence_[i][0];
-                result.sequence_[i][1] = c1.sequence_[i][1] + c2.sequence_[i][1];
+        for(int i = 0; i < smaller_seq ; i++){
+            result.sequence_[i][0] = c1.sequence_[i][0] + c2.sequence_[i][0];
+            result.sequence_[i][1] = c1.sequence_[i][1] + c2.sequence_[i][1];
+        }
+        if(c1.size_ > c2.size_){
+            for(int i = c2.size_; i < c1.size_; i++){
+                result.sequence_[i][0] = c1.sequence_[i][0];
+                result.sequence_[i][1] = c1.sequence_[i][1];
             }
-        }else if(c1.size_ > c2.size_){
-            //fill in 
-
+        }else if(c2.size_ > c1.size_){
+            for(int i = c1.size_; i < c2.size_; i++){
+                result.sequence_[i][0] = c2.sequence_[i][0];
+                result.sequence_[i][1] = c2.sequence_[i][1];
+            }
         }
         return result;    
     }
