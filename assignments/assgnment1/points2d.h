@@ -116,10 +116,10 @@ class Points2D {
     friend Points2D operator+(const Points2D &c1, const Points2D &c2) {
         Points2D result;
         result.size_ = std::max(c1.size_, c2.size_);
-        smaller_seq = std::min(c1.size_,c2.size_);
+        int smaller_seq_size = std::min(c1.size_,c2.size_);
         result.sequence_ =  new std::array<Object, 2>[result.size_]
             // do smaller one first lol
-        for(int i = 0; i < smaller_seq ; i++){
+        for(int i = 0; i < smaller_seq_size ; i++){
             result.sequence_[i][0] = c1.sequence_[i][0] + c2.sequence_[i][0];
             result.sequence_[i][1] = c1.sequence_[i][1] + c2.sequence_[i][1];
         }
