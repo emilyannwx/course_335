@@ -117,7 +117,7 @@ class Points2D {
         Points2D result;
         result.size_ = std::max(c1.size_, c2.size_);
         int smaller_seq_size = std::min(c1.size_,c2.size_);
-        result.sequence_ =  new std::array<Object, 2>[result.size_]
+        result.sequence_ =  new std::array<Object, 2>[result.size_];
             // do smaller one first lol
         for(int i = 0; i < smaller_seq_size ; i++){
             result.sequence_[i][0] = c1.sequence_[i][0] + c2.sequence_[i][0];
