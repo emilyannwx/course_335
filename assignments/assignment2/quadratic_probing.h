@@ -93,7 +93,7 @@ class HashTable {
     array_[current_pos].info_ = DELETED;
     return true;
   }
-  // Returns the size of the table
+  // returns the size of the table
    size_t GetTableSize() const{
      return array_.size();
    }
