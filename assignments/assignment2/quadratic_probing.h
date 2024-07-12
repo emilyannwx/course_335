@@ -69,21 +69,21 @@ class HashTable {
     return true;
   }
     
-  bool Insert(HashedObj && x) {
-    // Insert x as active
-    size_t current_pos = FindPos(x);
-    if (IsActive(current_pos))
-      return false;
+  // bool Insert(HashedObj && x) {
+  //   // Insert x as active
+  //   size_t current_pos = FindPos(x);
+  //   if (IsActive(current_pos))
+  //     return false;
     
-    array_[current_pos] = std::move(x);
-    array_[current_pos].info_ = ACTIVE;
+  //   array_[current_pos] = std::move(x);
+  //   array_[current_pos].info_ = ACTIVE;
 
-    // Rehash; see Section 5.5
-    if (++current_size_ > array_.size() / 2)
-      Rehash();
+  //   // Rehash; see Section 5.5
+  //   if (++current_size_ > array_.size() / 2)
+  //     Rehash();
 
-    return true;
-  }
+  //   return true;
+  // }
 
   bool Remove(const HashedObj & x) {
     size_t current_pos = FindPos(x);
@@ -93,6 +93,25 @@ class HashTable {
     array_[current_pos].info_ = DELETED;
     return true;
   }
+  // Returns the size of the table
+   size_t GetTableSize() const{
+     return array_.size();
+   }
+
+
+  size_t GetProbeCount(const HashedObj & x) const {
+    size_t probe_count = 0;
+    size_t offset = 1;
+    size_t current_pos = InternalHash(x);
+    while (array_[current_pos].info_ != EMPTY && array_[current_pos].element_ != x) {
+        current_pos += offset;  // Compute ith probe
+        offset += 2;            // Increment by 2
+        if (current_pos >= array_.size())
+            current_pos -= array_.size();
+        ++probe_count;
+    }
+    return probe_count + 1; // +1 for the final probe (found or empty)
+}
 
  private:        
   struct HashEntry {

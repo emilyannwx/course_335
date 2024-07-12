@@ -8,7 +8,7 @@
 namespace {
 
 // Internal method to test if a positive number is prime.
-bool IsPrime(size_t n) {
+bool IsPrimeL(size_t n) {
   if( n == 2 || n == 3 )
     return true;
   
@@ -23,10 +23,10 @@ bool IsPrime(size_t n) {
 }
 
 // Internal method to return a prime number at least as large as n.
-int NextPrime(size_t n) {
+int NextPrimeL(size_t n) {
   if (n % 2 == 0)
     ++n;  
-  while (!IsPrime(n)) n += 2;  
+  while (!IsPrimeL(n)) n += 2;  
   return n;
 }
 
@@ -34,11 +34,11 @@ int NextPrime(size_t n) {
 
 // Linear probing implementation.
 template <typename HashedObj>
-class HashTable {
+class HashTableLinear {
  public:
   enum EntryType {ACTIVE, EMPTY, DELETED};
 
-  explicit HashTable(size_t size = 101) : array_(NextPrime(size))
+  explicit HashTableLinear(size_t size = 101) : array_(NextPrimeL(size))
     { MakeEmpty(); }
   
   bool Contains(const HashedObj & x) const {
@@ -66,21 +66,22 @@ class HashTable {
     return true;
   }
 
-  bool Insert(HashedObj && x) {
-    // Insert x as active
-    size_t current_pos = FindPos(x);
-    if (IsActive(current_pos))
-      return false;
+
+//   bool Insert(HashedObj && x) {
+//     // Insert x as active
+//     size_t current_pos = FindPos(x);
+//     if (IsActive(current_pos))
+//       return false;
     
-    array_[current_pos] = std::move(x);
-    array_[current_pos].info_ = ACTIVE;
+//     array_[current_pos] = std::move(x);
+//     array_[current_pos].info_ = ACTIVE;
 
-    // Rehash; see Section 5.5
-    if (++current_size_ > array_.size() / 2)
-      Rehash();
+//     // Rehash; see Section 5.5
+//     if (++current_size_ > array_.size() / 2)
+//       Rehash();
 
-    return true;
-  }
+//     return true;
+//   }
 
    bool Remove(const HashedObj & x) {
     size_t current_pos = FindPos(x);
@@ -90,6 +91,12 @@ class HashTable {
     array_[current_pos].info_ = DELETED;
     return true;
   }
+
+  // Returns the size of the table
+   size_t GetTableSize() const{
+     return array_.size();
+   }
+
     //get number of probes (for testing)
     size_t GetProbeCount(const HashedObj & x) const {
     size_t probe_count = 0;
@@ -139,7 +146,7 @@ class HashTable {
     std::vector<HashEntry> old_array = array_;
 
     // Create new double-sized, empty table.
-    array_.resize(NextPrime(2 * old_array.size()));
+    array_.resize(NextPrimeL(2 * old_array.size()));
     for (auto & entry : array_)
       entry.info_ = EMPTY;
     
