@@ -108,7 +108,7 @@ class HashTable {
         offset += 2;            // Increment by 2
         if (current_pos >= array_.size())
             current_pos -= array_.size();
-        ++probe_count;
+        probe_count++;
     }
     return probe_count + 1; // +1 for the final probe (found or empty)
 }

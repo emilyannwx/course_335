@@ -106,7 +106,7 @@ class HashTableLinear {
       current_pos += 1;  // Linear probing
       if (current_pos >= array_.size())
         current_pos -= array_.size();
-      ++probe_count;
+        probe_count++;
     }
     return probe_count + 1; // +1 for the final probe (found or empty)
   }

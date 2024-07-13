@@ -6,8 +6,7 @@
 
 // Uncomment when you implemented linear probing & double hashing
 #include "linear_probing.h"
-//#include "double_hashing.h"
-
+#include "double_hashing.h"
 #include "quadratic_probing.h"
 
 using namespace std;
@@ -46,7 +45,7 @@ void TestFunctionForHashTable(HashTableType &hash_table,
     for (const auto &word : input_words) {
         if (hash_table.Insert(word)) {
             num_elements++;
-            collisions_count += hash_table.GetProbeCount(word) - 1; // probes - 1 (first probe doesn't count as a collision)
+            collisions_count += hash_table.GetProbeCount(word) - 1 ; // first probe isnt a collision
         }
     }
 
@@ -61,7 +60,7 @@ void TestFunctionForHashTable(HashTableType &hash_table,
     cout << "Average number of collisions (C/N): " << average_collisions << std::endl;
 
     for (const auto &word : query_words) {
-        int probe_count = hash_table.GetProbeCount(word);
+        int probe_count = hash_table.GetProbeCount(word) ;
         if (hash_table.Contains(word)) {
             cout << word << " Found " << probe_count << endl;
         } else {
@@ -81,7 +80,7 @@ int testHashingWrapper(int argument_count, char **argument_list) {
     const string words_filename(argument_list[1]);
     const string query_filename(argument_list[2]);
     const string param_flag(argument_list[3]);
-    int R = 89;
+    int R = 90;
     if (argument_count == 5) {
 	const string rvalue(argument_list[4]);
 	R = stoi(rvalue);
@@ -98,9 +97,8 @@ int testHashingWrapper(int argument_count, char **argument_list) {
     } else if (param_flag == "double") {
 	cout << "r_value: " << R << endl;
         // Uncomment below when you have implemented double hashing.
-	// HashTableDouble<string> double_probing_table;
-	// TestFunctionForHashTable(double_probing_table, words_filename,
-	// 			 query_filename);
+	HashTableDouble<string> double_probing_table(101,R);
+	TestFunctionForHashTable(double_probing_table, words_filename, query_filename);
     } else {
 	cout << "Unknown tree type " << param_flag
 	     << " (User should provide linear, quadratic, or double)" << endl;

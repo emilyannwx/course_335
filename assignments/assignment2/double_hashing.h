@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <iostream>
+
 
 
 namespace {
@@ -41,8 +43,9 @@ class HashTableDouble {
  public:
   enum EntryType {ACTIVE, EMPTY, DELETED};
 
-  explicit HashTableDouble(size_t size = 101) : array_(NextPrimeD(size)), R_(r)
-    { MakeEmpty(); }
+  explicit HashTableDouble(size_t size = 101, int r = 89) : array_(NextPrimeD(size)), R_(r)
+    { MakeEmpty();
+ }
   
   bool Contains(const HashedObj & x) const {
     return IsActive(FindPos(x));
@@ -101,14 +104,14 @@ class HashTableDouble {
 
   size_t GetProbeCount(const HashedObj & x) const {
     size_t probe_count = 0;
-    size_t offset = Hash(2);
+    size_t offset = Hash2(x);
     size_t current_pos = InternalHash(x);
     while (array_[current_pos].info_ != EMPTY && array_[current_pos].element_ != x) {
         current_pos += offset;  //double hash
         //offset += 2;            // Increment by 2
         if (current_pos >= array_.size())
             current_pos -= array_.size();
-        ++probe_count;
+        probe_count++;
     }
     return probe_count + 1; // +1 for the final probe (found or empty)
 }
@@ -128,6 +131,7 @@ class HashTableDouble {
 
   std::vector<HashEntry> array_;
   size_t current_size_;
+  int R_;
 
   bool IsActive(size_t current_pos) const
   { return array_[current_pos].info_ == ACTIVE; }
@@ -150,7 +154,7 @@ class HashTableDouble {
     std::vector<HashEntry> old_array = array_;
 
     // Create new double-sized, empty table.
-    array_.resize(NextPrime(2 * old_array.size()));
+    array_.resize(NextPrimeD(2 * old_array.size()));
     for (auto & entry : array_)
       entry.info_ = EMPTY;
     
@@ -168,7 +172,9 @@ class HashTableDouble {
 
   size_t Hash2(const HashedObj & x) const{
     static std::hash<HashedObj> hf;
-    return R_ - (hf(x) % R_);
+   // std::cout << "Hash2 called with R_ = " << R_  << std::endl; // test output
+    return R_ - (hf(x) % R_); 
+
   }
 };
 
