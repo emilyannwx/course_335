@@ -21,6 +21,13 @@ class Customer{
             service_time = rand() % 61;
         }
 
+        bool operator> (const Customer& other) const{
+            return priority_level_ > other.priority_level_;
+        }
+        bool operator< (const Customer& other) const{
+            return priority_level_ < other.priority_level_;
+        }
+
 
 
 };

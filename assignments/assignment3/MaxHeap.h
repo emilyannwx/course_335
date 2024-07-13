@@ -44,7 +44,7 @@ class MaxHeap{
             for(; hole * 2 <= current_size; hole = child){
                 child = hole *2;
                 if(child != current_size && array[child+1] > array[child]){
-                    ++childl
+                    ++child;
                 }
                 if(array[child] > tmp){
                     array[hole] = move(array[child]);
