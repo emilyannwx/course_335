@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 
-
 // Uncomment when you implemented linear probing & double hashing
 #include "linear_probing.h"
 #include "double_hashing.h"
@@ -35,8 +34,6 @@ void TestFunctionForHashTable(HashTableType &hash_table,
     //loads words from input
     vector<string> input_words = LoadWords(words_filename);
     vector<string> query_words = LoadWords(query_filename);
-
-    
 
     int num_elements = 0;
     int collisions_count = 0;

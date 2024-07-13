@@ -24,11 +24,7 @@ vector<pair<string, char>> CorrectMisspelledWords(const string& word, const Hash
         corrections.push_back({corrected_word, 'A'});
       }
     }
-    // // add a space
-    // string corrected_word = word.substr(0, i) + ' ' + word.substr(i);
-    // if (dictionary.Contains(corrected_word)) {
-    //   corrections.push_back({corrected_word, 'A'});
-    // }
+   
   }
 
   // case b: Removing one character from the word
