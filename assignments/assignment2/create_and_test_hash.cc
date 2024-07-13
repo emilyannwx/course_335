@@ -1,4 +1,4 @@
-// YOUR NAME.
+// Emily Ann Willix.
 #include <fstream>
 #include <iostream>
 #include <string>
