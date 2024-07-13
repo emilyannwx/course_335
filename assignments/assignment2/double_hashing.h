@@ -72,22 +72,7 @@ class HashTableDouble {
     return true;
   }
     
-  // bool Insert(HashedObj && x) {
-  //   // Insert x as active
-  //   size_t current_pos = FindPos(x);
-  //   if (IsActive(current_pos))
-  //     return false;
-    
-  //   array_[current_pos] = std::move(x);
-  //   array_[current_pos].info_ = ACTIVE;
-
-  //   // Rehash; see Section 5.5
-  //   if (++current_size_ > array_.size() / 2)
-  //     Rehash();
-
-  //   return true;
-  // }
-
+  
   bool Remove(const HashedObj & x) {
     size_t current_pos = FindPos(x);
     if (!IsActive(current_pos))
