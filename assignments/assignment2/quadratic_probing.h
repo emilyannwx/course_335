@@ -1,3 +1,4 @@
+//Emily Ann Willix
 #ifndef QUADRATIC_PROBING_H
 #define QUADRATIC_PROBING_H
 
@@ -68,8 +69,22 @@ class HashTable {
       Rehash();    
     return true;
   }
-    
 
+  bool Insert(HashedObj && x) {
+     // Insert x as active
+     size_t current_pos = FindPos(x);
+     if (IsActive(current_pos))
+       return false;
+
+     array_[current_pos] = std::move(x);
+     array_[current_pos].info_ = ACTIVE;
+
+     // Rehash; see Section 5.5
+     if (++current_size_ > array_.size() / 2)
+       Rehash();
+
+     return true;
+   }
 
   bool Remove(const HashedObj & x) {
     size_t current_pos = FindPos(x);
@@ -94,10 +109,11 @@ class HashTable {
         offset += 2;            // Increment by 2
         if (current_pos >= array_.size())
             current_pos -= array_.size();
-        probe_count++;
+        probe_count++; //increment probe count 
     }
-    return probe_count + 1; // +1 for the final probe (found or empty)
+    return probe_count + 1; // adds 1  for the last probe (found or empty)
 }
+
 
  private:        
   struct HashEntry {

@@ -12,6 +12,7 @@ using namespace std;
 
 
 // You can add more functions here
+//get words from input file
 vector<std::string> LoadWords(const std::string &filename) {
     vector<std::string> words;
     ifstream file(filename);
@@ -38,11 +39,11 @@ void TestFunctionForHashTable(HashTableType &hash_table,
     int num_elements = 0;
     int collisions_count = 0;
 
-    //insert
+    //insert word into hash table
     for (const auto &word : input_words) {
         if (hash_table.Insert(word)) {
             num_elements++;
-            collisions_count += hash_table.GetProbeCount(word) - 1 ; // first probe isnt a collision
+            collisions_count += hash_table.GetProbeCount(word) -1 ; // first probe isnt a collision
         }
     }
 
@@ -65,9 +66,6 @@ void TestFunctionForHashTable(HashTableType &hash_table,
         }
     }
 
-
- 
-
 }
 
 // @argument_count: argc as provided in main
@@ -77,7 +75,7 @@ int testHashingWrapper(int argument_count, char **argument_list) {
     const string words_filename(argument_list[1]);
     const string query_filename(argument_list[2]);
     const string param_flag(argument_list[3]);
-    int R = 90;
+    int R = 89;
     if (argument_count == 5) {
 	const string rvalue(argument_list[4]);
 	R = stoi(rvalue);

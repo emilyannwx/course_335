@@ -1,3 +1,4 @@
+//Emily Ann Willix
 #ifndef LINEAR_PROBING_H
 #define LINEAR_PROBING_H
 
@@ -66,7 +67,21 @@ class HashTableLinear {
     return true;
   }
 
+  bool Insert(HashedObj && x) {
+     // Insert x as active
+     size_t current_pos = FindPos(x);
+     if (IsActive(current_pos))
+       return false;
 
+     array_[current_pos] = std::move(x);
+     array_[current_pos].info_ = ACTIVE;
+
+     // Rehash; see Section 5.5
+     if (++current_size_ > array_.size() / 2)
+       Rehash();
+
+     return true;
+   }
 
    bool Remove(const HashedObj & x) {
     size_t current_pos = FindPos(x);
@@ -87,14 +102,17 @@ class HashTableLinear {
     size_t probe_count = 0;
     size_t current_pos = InternalHash(x);
     
+
     while (array_[current_pos].info_ != EMPTY && array_[current_pos].element_ != x) {
-      current_pos += 1;  // Linear probing
+      current_pos += 1;  // linear probing: go to next slot and check if empty
       if (current_pos >= array_.size())
         current_pos -= array_.size();
-        probe_count++;
+      ++probe_count; 
     }
-    return probe_count + 1; // +1 for the final probe (found or empty)
+    return probe_count + 1; // add 1 for the last probe (found or empty)
   }
+
+
   private:        
   struct HashEntry {
     HashedObj element_;
@@ -114,7 +132,7 @@ class HashTableLinear {
   { return array_[current_pos].info_ == ACTIVE; }
 
   size_t FindPos(const HashedObj & x) const {
-    size_t offset = 1;
+    //size_t offset = 1;
     size_t current_pos = InternalHash(x);
       
     while (array_[current_pos].info_ != EMPTY &&
@@ -148,9 +166,5 @@ class HashTableLinear {
   }
 };
     
-
-
-
-
 
 #endif  //LINEAR_PROBING_H

@@ -24,7 +24,6 @@ vector<pair<string, char>> CorrectMisspelledWords(const string& word, const Hash
         corrections.push_back({corrected_word, 'A'});
       }
     }
-   
   }
 
   // case b: Removing one character from the word
